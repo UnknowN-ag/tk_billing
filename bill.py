@@ -1,4 +1,6 @@
 from tkinter import *
+import math, random
+from tkinter import messagebox
 
 class BillApp:
     def __init__(self, root):
@@ -41,6 +43,9 @@ class BillApp:
         self.c_name = StringVar()
         self.c_mobile = StringVar()
         self.c_bill_no = StringVar()
+        rand_num = random.randint(1000,9999)
+        self.c_bill_no.set(str(rand_num))
+
         self.search_bill = StringVar()
 
         
@@ -179,9 +184,9 @@ class BillApp:
         bill_title.pack(fill = X)
         scroll_y = Scrollbar(F5, orient = VERTICAL)
         scroll_y.pack(side = RIGHT, fill = Y)
-        txtarea = Text(F5, yscrollcommand = scroll_y.set)
-        txtarea.pack(fill = BOTH, expand = 1)
-        scroll_y.config(command = txtarea.yview)
+        self.txtarea = Text(F5, yscrollcommand = scroll_y.set)
+        self.txtarea.pack(fill = BOTH, expand = 1)
+        scroll_y.config(command = self.txtarea.yview)
 
         #==========Button Frame=============
         F6 = LabelFrame(self.root, text = "Bill Menu", font = ("times new roman", 15, "bold"), fg = "gold", bg = bg_color, bd = 7, relief = GROOVE)
@@ -224,7 +229,7 @@ class BillApp:
         total_btn = Button(btn_frame,command = self.total, text = "Total", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
         total_btn.grid(row = 0, column = 0, pady = 20, padx = 10)
 
-        generate_btn = Button(btn_frame, text = "Generate Bill", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 13, bd = 5, pady = 15)
+        generate_btn = Button(btn_frame,command =self.bill_area, text = "Generate Bill", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 13, bd = 5, pady = 15)
         generate_btn.grid(row = 0, column = 2, pady = 20, padx = 10)
 
         clear_btn = Button(btn_frame, text = "Clear", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
@@ -233,41 +238,135 @@ class BillApp:
         exit_btn = Button(btn_frame, text = "Exit", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
         exit_btn.grid(row = 0, column = 4, pady = 20, padx = 10)
 
+        self.welcome_bill()
+
     def total(self):
-        print('hello')
+        self.tot_bath_soap_price = (self.bath_soap.get()*20)
+        self.tot_face_cream_price = (self.face_cream.get()*40)
+        self.tot_face_wash_price = (self.face_wash.get()*35)
+        self.tot_shampoo_price = (self.shampoo.get()*50)
+        self.tot_hair_gel_price = (self.hair_gel.get()*15)
+        self.tot_body_lotion_price = (self.body_lotion.get()*25) 
         self.total_cos_price =float(
-            (self.bath_soap.get()*20)+
-            (self.face_cream.get()*40)+
-            (self.face_wash.get()*35)+
-            (self.shampoo.get()*50)+
-            (self.hair_gel.get()*15)+
-            (self.body_lotion.get()*25))
+            self.tot_bath_soap_price +
+            self.tot_face_cream_price +
+            self.tot_face_wash_price +
+            self.tot_shampoo_price +
+            self.tot_hair_gel_price +
+            self.tot_body_lotion_price)
         self.cos_price.set(str(self.total_cos_price))
         self.cos_tax.set(str(round(self.total_cos_price*0.18, 2)))
-        
-
+        #========================================================================
+        self.tot_rice_price = (self.rice.get()*45)
+        self.tot_wheat_price = (self.wheat.get()*20)
+        self.tot_olive_oil_price = (self.olive_oil.get()*180)
+        self.tot_sugar_price = (self.sugar.get()*40)
+        self.tot_tea_price = (self.tea.get()*100)
+        self.tot_dal_price = (self.dal.get()*70)
         self.total_gro_price =float(
-            (self.rice.get()*45)+
-            (self.olive_oil.get()*180)+
-            (self.wheat.get()*20)+
-            (self.sugar.get()*40)+
-            (self.tea.get()*100)+
-            (self.dal.get()*70))
+            self.tot_rice_price +
+            self.tot_olive_oil_price +
+            self.tot_wheat_price +
+            self.tot_sugar_price +
+            self.tot_tea_price +
+            self.tot_dal_price)
         self.gro_price.set(str(self.total_gro_price))
         self.gro_tax.set(str(round(self.total_gro_price*0.18, 2)))
-
+        #========================================================================
+        self.tot_pepsi_price = (self.pepsi.get()*20)
+        self.tot_coke_price = (self.coke.get()*20)
+        self.tot_frooti_price = (self.frooti.get()*30)
+        self.tot_sprite_price = (self.sprite.get()*25)
+        self.tot_appy_price = (self.appy.get()*10)
+        self.tot_maza_price = (self.maza.get()*25)
         self.total_drink_price =float(
-            (self.pepsi.get()*20)+
-            (self.coke.get()*20)+
-            (self.frooti.get()*30)+
-            (self.sprite.get()*25)+
-            (self.appy.get()*10)+
-            (self.maza.get()*25))
+            self.tot_pepsi_price +
+            self.tot_coke_price +
+            self.tot_frooti_price +
+            self.tot_sprite_price +
+            self.tot_appy_price +
+            self.tot_maza_price)
         self.drink_price.set(str(self.total_drink_price))
         self.drink_tax.set(str(round(self.total_drink_price*0.18, 2)))
 
+        self.total_price = (
+            self.total_cos_price +
+            self.total_gro_price +
+            self.total_drink_price +
+            float(self.cos_tax.get()) +
+            float(self.gro_tax.get()) +
+            float(self.drink_tax.get())
+        )
 
-       
+    def welcome_bill(self):
+        self.txtarea.delete('1.0',END)
+        self.txtarea.insert(END, "\tWelcome Retail Shop\n")
+        self.txtarea.insert(END, f"\nBill Number : {self.c_bill_no.get()}")
+        self.txtarea.insert(END, f"\nCustomer Name : {self.c_name.get()}")
+        self.txtarea.insert(END, f"\nContact : {self.c_mobile.get()}")
+        self.txtarea.insert(END, f"\n==========================================")
+        self.txtarea.insert(END, f"\nProducts\t\tQty\t\tPrice")
+        self.txtarea.insert(END, f"\n==========================================")
+
+    def bill_area(self):
+        if self.c_name.get() == "" or self.c_mobile.get() == "":
+            messagebox.showerror("Error","Customer details are must")
+        elif self.cos_price.get() == "0.0" and self.gro_tax.get() == "0.0" and self.drink_tax.get() == "0.0":
+            messagebox.showerror("Error","No products are selected")
+        else:
+            self.welcome_bill()
+            #================cos==================
+            if self.bath_soap.get()!=0:
+                self.txtarea.insert(END,f"\nBath Soap\t\t{self.bath_soap.get()}\t\t{self.tot_bath_soap_price}")
+            if self.face_cream.get()!=0:
+                self.txtarea.insert(END,f"\nFace Cream\t\t{self.face_cream.get()}\t\t{self.tot_face_cream_price}")
+            if self.face_wash.get()!=0:
+                self.txtarea.insert(END,f"\nFace Wash\t\t{self.face_wash.get()}\t\t{self.tot_face_wash_price}")
+            if self.shampoo.get()!=0:
+                self.txtarea.insert(END,f"\nShampoo\t\t{self.shampoo.get()}\t\t{self.tot_shampoo_price}")
+            if self.hair_gel.get()!=0:
+                self.txtarea.insert(END,f"\nHair Gel\t\t{self.hair_gel.get()}\t\t{self.tot_hair_gel_price}")
+            if self.body_lotion.get()!=0:
+                self.txtarea.insert(END,f"\nBody Lotion\t\t{self.body_lotion.get()}\t\t{self.tot_body_lotion_price}")
+
+            #================gro==================
+            if self.rice.get()!=0.0:
+                self.txtarea.insert(END,f"\nRice\t\t{self.rice.get()}\t\t{self.tot_rice_price}")
+            if self.olive_oil.get()!=0:
+                self.txtarea.insert(END,f"\nOlive Oil\t\t{self.olive_oil.get()}\t\t{self.tot_olive_oil_price}")
+            if self.wheat.get()!=0:
+                self.txtarea.insert(END,f"\nWheat\t\t{self.wheat.get()}\t\t{self.tot_wheat_price}")
+            if self.sugar.get()!=0:
+                self.txtarea.insert(END,f"\nSugar\t\t{self.sugar.get()}\t\t{self.tot_sugar_price}")
+            if self.tea.get()!=0:
+                self.txtarea.insert(END,f"\nTea\t\t{self.tea.get()}\t\t{self.tot_tea_price}")
+            if self.dal.get()!=0:
+                self.txtarea.insert(END,f"\nDal\t\t{self.dal.get()}\t\t{self.tot_dal_price}")
+
+            #================drinks==================
+            if self.pepsi.get()!=0.0:
+                self.txtarea.insert(END,f"\nPepsi\t\t{self.pepsi.get()}\t\t{self.tot_pepsi_price}")
+            if self.coke.get()!=0:
+                self.txtarea.insert(END,f"\nCoke\t\t{self.coke.get()}\t\t{self.tot_coke_price}")
+            if self.frooti.get()!=0:
+                self.txtarea.insert(END,f"\nFrooti\t\t{self.frooti.get()}\t\t{self.tot_frooti_price}")
+            if self.sprite.get()!=0:
+                self.txtarea.insert(END,f"\nSprite\t\t{self.sprite.get()}\t\t{self.tot_sprite_price}")
+            if self.appy.get()!=0:
+                self.txtarea.insert(END,f"\nAppy\t\t{self.appy.get()}\t\t{self.tot_appy_price}")
+            if self.maza.get()!=0:
+                self.txtarea.insert(END,f"\nMaza\t\t{self.maza.get()}\t\t{self.tot_maza_price}")
+
+            self.txtarea.insert(END, f"\n------------------------------------------")
+            if (self.cos_tax.get() != "0.0") and (self.cos_tax.get() != ""):
+                self.txtarea.insert(END, f"\nCosmetic Tax\t\t\t\t{self.cos_tax.get()}")
+            if (self.gro_tax.get() != "0.0") and (self.cos_tax.get() != ""):
+                self.txtarea.insert(END, f"\nGrocery Tax\t\t\t\t{self.gro_tax.get()}")
+            if (self.drink_tax.get() != "0.0") and (self.cos_tax.get() != ""):
+                self.txtarea.insert(END, f"\nDrink Tax\t\t\t\t{self.drink_tax.get()}")
+            self.txtarea.insert(END, f"\nTotal Bill\t\t\t\t{round(self.total_price,2)}")
+            self.txtarea.insert(END, f"\n------------------------------------------")
+
 
 
 root = Tk()
