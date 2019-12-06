@@ -1,0 +1,13 @@
+	Welcome Retail Shop
+
+Bill Number : 1169
+Customer Name : safdsaf
+Contact : xvgbxfg
+==========================================
+Products		Qty		Price
+==========================================
+Bath Soap		1.0		20.0
+------------------------------------------
+Cosmetic Tax				3.6
+Total Bill				23.6
+------------------------------------------

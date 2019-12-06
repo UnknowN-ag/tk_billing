@@ -1,0 +1,13 @@
+	Welcome Retail Shop
+
+Bill Number : 5819
+Customer Name : efsdg
+Contact : sfhsfh
+==========================================
+Products		Qty		Price
+==========================================
+Face Wash		76.0		2660.0
+------------------------------------------
+Cosmetic Tax				478.8
+Total Bill				3138.8
+------------------------------------------

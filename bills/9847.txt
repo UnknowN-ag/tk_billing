@@ -1,0 +1,14 @@
+	Welcome Retail Shop
+
+Bill Number : 9847
+Customer Name : sagar
+Contact : 2354235345
+==========================================
+Products		Qty		Price
+==========================================
+Bath Soap		3.0		60.0
+Face Wash		3.0		105.0
+------------------------------------------
+Cosmetic Tax				29.7
+Total Bill				194.7
+------------------------------------------

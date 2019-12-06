@@ -1,0 +1,13 @@
+	Welcome Retail Shop
+
+Bill Number : 3919
+Customer Name : sdcsaf
+Contact : dgfsdg
+==========================================
+Products		Qty		Price
+==========================================
+Bath Soap		3.0		60.0
+------------------------------------------
+Cosmetic Tax				10.8
+Total Bill				70.8
+------------------------------------------

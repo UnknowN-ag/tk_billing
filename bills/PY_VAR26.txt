@@ -1,0 +1,17 @@
+	Welcome Retail Shop
+
+Bill Number : 2059
+Customer Name : sdafsdfd
+Contact : dfvdsg
+==========================================
+Products		Qty		Price
+==========================================
+Bath Soap		1.0		20.0
+Olive Oil		1.0		180.0
+Frooti		1.0		30.0
+------------------------------------------
+Cosmetic Tax				3.6
+Grocery Tax				32.4
+Drink Tax				5.4
+Total Bill				271.4
+------------------------------------------

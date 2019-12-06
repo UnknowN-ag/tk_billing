@@ -1,5 +1,5 @@
 from tkinter import *
-import math, random
+import math, random, os
 from tkinter import messagebox
 
 class BillApp:
@@ -72,7 +72,7 @@ class BillApp:
         cbill_input = Entry(F1, textvariable = self.search_bill, width = 18, font = "arial 12", bd = 5, relief = SUNKEN)
         cbill_input.grid(row = 0, column = 5, pady = 5, padx = 10)
 
-        search_btn = Button(F1, text = "Search", font = "arial 10 bold", width = 10)
+        search_btn = Button(F1,command=self.find_bill, text = "Search", font = "arial 10 bold", width = 10)
         search_btn.grid(row = 0, column = 6, padx = 10, pady = 10)
 
         #=============Cosmetics Frame=============
@@ -232,10 +232,10 @@ class BillApp:
         generate_btn = Button(btn_frame,command =self.bill_area, text = "Generate Bill", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 13, bd = 5, pady = 15)
         generate_btn.grid(row = 0, column = 2, pady = 20, padx = 10)
 
-        clear_btn = Button(btn_frame, text = "Clear", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
+        clear_btn = Button(btn_frame,command= self.clear_text, text = "Clear", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
         clear_btn.grid(row = 0, column = 3, pady = 20, padx = 10)
 
-        exit_btn = Button(btn_frame, text = "Exit", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
+        exit_btn = Button(btn_frame,command= self.exit_app, text = "Exit", font =("arial", 15, "bold"), bg = "cadetblue", fg = "white", width = 10, bd = 5, pady = 15)
         exit_btn.grid(row = 0, column = 4, pady = 20, padx = 10)
 
         self.welcome_bill()
@@ -366,7 +366,78 @@ class BillApp:
                 self.txtarea.insert(END, f"\nDrink Tax\t\t\t\t{self.drink_tax.get()}")
             self.txtarea.insert(END, f"\nTotal Bill\t\t\t\t{round(self.total_price,2)}")
             self.txtarea.insert(END, f"\n------------------------------------------")
+            self.save_bill()
 
+    def save_bill(self):
+        m1 = messagebox.askyesno("Save Bill", "Do you want to save the bill ??")
+        if m1:
+            bill_data = self.txtarea.get('1.0', END)
+            f1 = open("bills/"+str(self.c_bill_no.get())+".txt","w")
+            f1.write(bill_data)
+            f1.close
+            messagebox.showinfo("Saved", f"Bill {self.c_bill_no.get()} saved successfully")
+        else:
+            return
+
+    def find_bill(self):
+        bill_present = False
+        for i in os.listdir("bills/"):
+            if i.split('.')[0] == self.search_bill.get():
+                f1 = open(f"bills/{i}","r")
+                self.txtarea.delete("1.0", END)
+                for letters in f1:
+                    self.txtarea.insert(END, letters)
+                f1.close()
+                bill_present = True
+        if bill_present == False:
+            messagebox.showerror("Error", "Invalid Bill Number")
+
+    def clear_text(self):
+        m1 = messagebox.askyesno("Clear Data", "Do you really want to clear??")
+        if m1:
+            #=================variables=====================
+            self.bath_soap.set(0)
+            self.face_cream.set(0)
+            self.face_wash.set(0)
+            self.shampoo.set(0)
+            self.hair_gel.set(0)
+            self.body_lotion.set(0)
+
+            self.rice.set(0)
+            self.olive_oil.set(0)
+            self.wheat.set(0)
+            self.sugar.set(0)
+            self.tea.set(0)
+            self.dal.set(0)
+
+            self.pepsi.set(0)
+            self.coke.set(0)
+            self.frooti.set(0)
+            self.sprite.set(0)
+            self.appy.set(0)
+            self.maza.set(0)
+
+            self.cos_price.set("")
+            self.gro_price.set("")
+            self.drink_price.set("")
+
+            self.cos_tax.set("")
+            self.gro_tax.set("")
+            self.drink_tax.set("")
+
+            self.c_name.set("")
+            self.c_mobile.set("")
+            self.c_bill_no.set("")
+            rand_num = random.randint(1000,9999)
+            self.c_bill_no.set(str(rand_num))
+
+            self.search_bill.set("")
+            self.welcome_bill()
+
+    def exit_app(self):
+        m1 = messagebox.askyesno("Exit App", "Do you really want to exit ??")
+        if m1:
+            self.root.destroy()
 
 
 root = Tk()
